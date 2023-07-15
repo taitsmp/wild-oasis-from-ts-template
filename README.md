@@ -1,3 +1,11 @@
+
+For Wild Oasis I did...
+
+* upgraded vite to v4
+* skipped eslint (should already be setup)
+
+----
+
 Template project with
 
 - pnpm

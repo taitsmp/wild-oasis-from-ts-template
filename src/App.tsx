@@ -1,29 +1,23 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import './App.css';
+import { styled } from 'styled-components';
+import GlobalStyles from './styles/GlobalStyles';
+import { Input } from './ui/Input';
+import Button from './ui/Button';
+
+const H1 = styled.h1`
+  font-size: 30px;
+  font-weight: 600;
+`;
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <>
+      <GlobalStyles />
+      <div className="App">
+        <H1>The Wild Oasis</H1>
+        <Button onClick={() => alert('hi')}>Check In</Button>
+        <Input type="number" placeholder="num guests" />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </div>
+    </>
   );
 }
 
