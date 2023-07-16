@@ -1,21 +1,29 @@
-import { styled } from 'styled-components';
 import GlobalStyles from './styles/GlobalStyles';
 import { Input } from './ui/Input';
 import Button from './ui/Button';
-
-const H1 = styled.h1`
-  font-size: 30px;
-  font-weight: 600;
-`;
+import Heading from './ui/Heading';
+import Row from './ui/Row';
 
 function App() {
   return (
     <>
       <GlobalStyles />
       <div className="App">
-        <H1>The Wild Oasis</H1>
-        <Button onClick={() => alert('hi')}>Check In</Button>
-        <Input type="number" placeholder="num guests" />
+        <Row type="vertical">
+          <Row type="horizontal">
+            <Heading as="h1">The Wild Oasis</Heading>
+            <div>
+              <Heading as="h2">Check in and out</Heading>
+              <Button onClick={() => alert('hi')}>Check In</Button>
+              <Button variation="secondary" size="small" onClick={() => alert('hi')}>
+                Check Out
+              </Button>
+            </div>
+          </Row>
+          <Row type="vertical">
+            <Input type="number" placeholder="num guests" />
+          </Row>
+        </Row>
       </div>
     </>
   );

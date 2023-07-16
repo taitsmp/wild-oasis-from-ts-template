@@ -1,6 +1,9 @@
-import styled, { css } from 'styled-components';
+import styled, { css, RuleSet } from 'styled-components';
 
-const sizes = {
+type Size = 'small' | 'medium' | 'large';
+type Variation = 'primary' | 'secondary' | 'danger';
+
+const sizes: Record<Size, RuleSet> = {
   small: css`
     font-size: 1.2rem;
     padding: 0.4rem 0.8rem;
@@ -20,7 +23,7 @@ const sizes = {
   `
 };
 
-const variations = {
+const variations: Record<Variation, RuleSet> = {
   primary: css`
     color: var(--color-brand-50);
     background-color: var(--color-brand-600);
@@ -48,20 +51,18 @@ const variations = {
   `
 };
 
-const Button = styled.button`
-  border: none;
-  background-color: var(--color-brand-600);
-  color: var(--color-brand-50);
-  border-radius: var(--border-radius-sm);
-  padding: 1.2rem 1.6rem;
-  font-weight: 500;
-  font-size: 1.4rem;
-  box-shadow: var(--shadow-sm);
-  cursor: pointer;
+interface Props {
+  variation?: Variation;
+  size?: Size;
+}
 
-  &:hover {
-    background-color: --var(color-brand-700);
-  }
+const Button = styled.button<Props>`
+  border: none;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-sm);
+  //destructuring "Props" primary and medium are the default values
+  ${({ size = 'medium' }) => sizes[size]}
+  ${({ variation = 'primary' }) => variations[variation]}
 `;
 
 export default Button;
