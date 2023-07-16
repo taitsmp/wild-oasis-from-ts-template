@@ -1,30 +1,31 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import GlobalStyles from './styles/GlobalStyles';
-import { Input } from './ui/Input';
-import Button from './ui/Button';
-import Heading from './ui/Heading';
-import Row from './ui/Row';
+import Dashboard from './pages/Dashboard';
+import Bookings from './pages/Bookings';
+import Account from './pages/Account';
+import Cabins from './pages/Cabins';
+import Settings from './pages/Settings';
+import Users from './pages/Users';
+import Login from './pages/Login';
+import PageNotFound from './pages/PageNotFound';
 
 function App() {
   return (
     <>
       <GlobalStyles />
-      <div className="App">
-        <Row type="vertical">
-          <Row type="horizontal">
-            <Heading as="h1">The Wild Oasis</Heading>
-            <div>
-              <Heading as="h2">Check in and out</Heading>
-              <Button onClick={() => alert('hi')}>Check In</Button>
-              <Button variation="secondary" size="small" onClick={() => alert('hi')}>
-                Check Out
-              </Button>
-            </div>
-          </Row>
-          <Row type="vertical">
-            <Input type="number" placeholder="num guests" />
-          </Row>
-        </Row>
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<Navigate replace to="dashboard" />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="bookings" element={<Bookings />} />
+          <Route path="accounts" element={<Account />} />
+          <Route path="cabins" element={<Cabins />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="users" element={<Users />} />
+          <Route path="login" element={<Login />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
