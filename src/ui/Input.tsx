@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-export const Input = styled.input`
+const Input = styled.input`
   border-radius: 5px;
   padding: 1rem 1.5rem;
   border: 1px var(--color-grey-300);
@@ -8,3 +8,5 @@ export const Input = styled.input`
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-sm);
 `;
+
+export default Input;
