@@ -2,11 +2,9 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = 'https://jzptqqkrumyqqdyctwjx.supabase.co';
 
-if (!process.env.SUPABASE_KEY) {
-  throw new Error('SUPABASE_KEY environment variable is not defined');
-}
+const supabaseKey =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6cHRxcWtydW15cXFkeWN0d2p4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODk1ODc2NTEsImV4cCI6MjAwNTE2MzY1MX0.8QSjoow91v-vuDX11PnVNeEwryVTVXhH79elfPrlZg8';
 
-const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default supabase;
