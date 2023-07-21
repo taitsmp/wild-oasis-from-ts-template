@@ -1,5 +1,14 @@
 import supabase from './supabase';
 
+type Cabin = {
+  name: string;
+  maxCapacity: number;
+  regularPrice: number;
+  discount: number;
+  description: string;
+  image: string;
+};
+
 export async function getCabins() {
   const { data, error } = await supabase.from('cabins').select('*');
 
@@ -16,5 +25,13 @@ export async function deleteCabin(id: number) {
 
   if (error) {
     throw new Error('Error deleting cabin');
+  }
+}
+
+export async function createCabin(newCabin: Cabin) {
+  const { data, error } = await supabase.from('cabins').insert([newCabin]).select();
+
+  if (error) {
+    throw new Error('Error inserting cabin');
   }
 }
