@@ -46,7 +46,6 @@ export async function createCabin(newCabin: Cabin) {
     .upload(imageName, newCabin.image);
 
   // delete the cabin if there was an error
-
   if (storageError) {
     await supabase.from('cabins').delete().eq('id', data[0].id);
     console.error(storageError);
