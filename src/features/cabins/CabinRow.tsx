@@ -91,7 +91,7 @@ export function CabinRow({ cabin }: CabinRowProps) {
           <button onClick={() => setShowForm((show: boolean) => !show)}>Edit</button>
         </div>
       </TableRow>
-      {showForm && <CreateCabinForm />}
+      {showForm && <CreateCabinForm cabinToEdit={cabin} />}
     </>
   );
 }
