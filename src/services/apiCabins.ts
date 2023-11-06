@@ -28,14 +28,19 @@ export async function deleteCabin(id: number) {
   }
 }
 
-export async function createCabin(newCabin: Cabin) {
+export async function createEditCabin(newCabin: Cabin, id) {
   const imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll('/', '_');
   const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
 
-  const { data, error } = await supabase
-    .from('cabins')
-    .insert([{ ...newCabin, image: imagePath }])
-    .select();
+  let query = supabase.from('cabins');
+
+  if (!id) {
+    query.insert([{ ...newCabin, image: imagePath }]);
+  } else {
+    query.update({ ...newCabin, image: imagePath }).eq('id', id);
+  }
+
+  const { data, error } = await query.select().single();
 
   if (error) {
     throw new Error('Error inserting cabin');
