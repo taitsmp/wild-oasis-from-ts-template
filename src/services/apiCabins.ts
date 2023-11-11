@@ -6,7 +6,7 @@ type Cabin = {
   regularPrice: number;
   discount: number;
   description: string;
-  image: File;
+  image: File | string | null;
 };
 
 export async function getCabins() {
@@ -28,16 +28,45 @@ export async function deleteCabin(id: number) {
   }
 }
 
-export async function createEditCabin(newCabin: Cabin, id) {
-  const imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll('/', '_');
-  const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
+export async function createEditCabin(newCabin: Cabin, id: number | null) {
+  let hasImagePath = false;
+  let imageName = '';
+
+  // TODO: this logic looks a little off to me.
+  /*
+    We should handle...
+    - new record: create with image, no image
+    - existing: add image, remove image, change image
+
+    I believe...
+    - image being added will be a File
+    - image not changing will be a string. 
+    - image is null is either an an image being removed or a new record with no image
+  */
+
+  // do we have an image?
+  if (newCabin.image) {
+    // Next, check if image is a string and use startsWith
+    if (typeof newCabin.image === 'string') {
+      hasImagePath = newCabin.image.startsWith(supabaseUrl);
+      imageName = `${Math.random()}-${newCabin.image}`.replaceAll('/', '_');
+    } else if (newCabin.image instanceof File) {
+      // Handle the case where image is a File
+      imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll('/', '_');
+    }
+  }
+
+  // TODO: should we change the image path
+  const imagePath = hasImagePath
+    ? newCabin.image
+    : `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
 
   let query = supabase.from('cabins');
 
   if (!id) {
-    query.insert([{ ...newCabin, image: imagePath }]);
+    query = query.insert([{ ...newCabin, image: imagePath }]);
   } else {
-    query.update({ ...newCabin, image: imagePath }).eq('id', id);
+    query = query.update({ ...newCabin, image: imagePath }).eq('id', id);
   }
 
   const { data, error } = await query.select().single();
@@ -46,6 +75,7 @@ export async function createEditCabin(newCabin: Cabin, id) {
     throw new Error('Error inserting cabin');
   }
 
+  // TODO: maybe don't upload an image if the image hasn't changed
   const { error: storageError } = await supabase.storage
     .from('cabin-images')
     .upload(imageName, newCabin.image);
