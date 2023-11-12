@@ -61,12 +61,15 @@ export async function createEditCabin(newCabin: Cabin, id: number | null) {
     ? newCabin.image
     : `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
 
-  let query = supabase.from('cabins');
+  let query;
 
   if (!id) {
-    query = query.insert([{ ...newCabin, image: imagePath }]);
+    query = supabase.from('cabins').insert([{ ...newCabin, image: imagePath }]);
   } else {
-    query = query.update({ ...newCabin, image: imagePath }).eq('id', id);
+    query = supabase
+      .from('cabins')
+      .update({ ...newCabin, image: imagePath })
+      .eq('id', id);
   }
 
   const { data, error } = await query.select().single();

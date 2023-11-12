@@ -104,8 +104,8 @@ function CreateCabinForm({ cabinToEdit = {} }) {
       <FormRow label="Discount" error={errors?.discount?.message}>
         <Input
           type="number"
-          disabled={isWorking}
           id="discount"
+          disabled={isWorking}
           defaultValue={0}
           {...register('discount', {
             required: 'Discount is required',
@@ -118,7 +118,6 @@ function CreateCabinForm({ cabinToEdit = {} }) {
       <FormRow label="Description for website" error={errors?.description?.message}>
         <Textarea
           type="number"
-          disabled={isWorking}
           id="description"
           defaultValue=""
           {...register('description', {
