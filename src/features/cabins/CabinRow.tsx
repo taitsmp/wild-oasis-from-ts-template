@@ -60,6 +60,8 @@ export function CabinRow({ cabin }: CabinRowProps) {
   const [showForm, setShowForm] = useState(false);
   const { isDeleting, deleteCabin } = useDeleteCabin();
 
+  // TODO: not sure why we have a discountPrice and a discount.
+  // in React Query toolkit it looks like we set discount.
   const { id, name, maxCapacity, regularPrice, discountPrice, discount, description, image } =
     cabin;
   return (
@@ -69,7 +71,7 @@ export function CabinRow({ cabin }: CabinRowProps) {
         <Cabin>{name}</Cabin>
         <div>Fits up to {maxCapacity}</div>
         <Price>{formatCurrency(regularPrice)}</Price>
-        {discountPrice ? <Discount>{formatCurrency(discount)}</Discount> : <span>&mdash;</span>}
+        {discount ? <Discount>{formatCurrency(discount)}</Discount> : <span>&mdash;</span>}
         <div>
           <button onClick={() => deleteCabin(id)} disabled={isDeleting}>
             Delete
