@@ -3,6 +3,7 @@ import { formatCurrency } from '../../utils/helpers';
 import CreateCabinForm from './CreateCabinForm';
 import { useState } from 'react';
 import { useDeleteCabin } from './useDeleteCabin';
+import { HiPencil, HiSquare2Stack, HiTrash } from 'react-icons/hi2';
 
 const TableRow = styled.div`
   display: grid;
@@ -59,11 +60,24 @@ interface CabinRowProps {
 export function CabinRow({ cabin }: CabinRowProps) {
   const [showForm, setShowForm] = useState(false);
   const { isDeleting, deleteCabin } = useDeleteCabin();
+  const { isCreating, createCabin } = useCreateCabin();
 
   // TODO: not sure why we have a discountPrice and a discount.
   // in React Query toolkit it looks like we set discount.
   const { id, name, maxCapacity, regularPrice, discountPrice, discount, description, image } =
     cabin;
+
+  const handleDuplicate = () => {
+    createCabin({
+      name: `Copy of ${name}`,
+      maxCapacity,
+      regularPrice,
+      discountPrice,
+      description,
+      image
+    });
+  };
+
   return (
     <>
       <TableRow role="row">
@@ -73,10 +87,15 @@ export function CabinRow({ cabin }: CabinRowProps) {
         <Price>{formatCurrency(regularPrice)}</Price>
         {discount ? <Discount>{formatCurrency(discount)}</Discount> : <span>&mdash;</span>}
         <div>
-          <button onClick={() => deleteCabin(id)} disabled={isDeleting}>
-            Delete
+          <button onClick={handleDuplicate}>
+            <HiSquare2Stack />
           </button>
-          <button onClick={() => setShowForm((show: boolean) => !show)}>Edit</button>
+          <button onClick={() => deleteCabin(id)} disabled={isDeleting}>
+            <HiTrash />
+          </button>
+          <button onClick={() => setShowForm((show: boolean) => !show)}>
+            <HiPencil />
+          </button>
         </div>
       </TableRow>
       {showForm && <CreateCabinForm cabinToEdit={cabin} />}
