@@ -1,14 +1,24 @@
-import { useState } from "react";
-import Button from "../../ui/Button";
-import Form from "../../ui/Form";
-import Input from "../../ui/Input";
-import FormRowVertical from "../../ui/FormRowVertical";
+import { useState } from 'react';
+import Button from '../../ui/Button';
+import Form from '../../ui/Form';
+import Input from '../../ui/Input';
+import FormRowVertical from '../../ui/FormRowVertical';
+import { login } from '../../services/apiAuth';
 
 function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  function handleSubmit() {}
+  function handleSubmit(e) {
+    console.log('handling submit');
+    e.preventDefault();
+
+    if (email === '' || password === '') {
+      return;
+    }
+
+    login({ email, password });
+  }
 
   return (
     <Form onSubmit={handleSubmit}>
