@@ -16,8 +16,6 @@ function LoginForm() {
     if (email === '' || password === '') {
       return;
     }
-
-    login({ email, password });
   }
 
   return (
